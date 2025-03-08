@@ -15,6 +15,10 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     EmployeeRepo employeeRepo;
+
+    public List<Employee> addAll(List<Employee> employees){
+        return employeeRepo.saveAll(employees);
+    }
     public Employee addEmployee(Employee employee){
         return employeeRepo.save(employee);
     }
@@ -64,6 +68,14 @@ public class EmployeeService {
         }
         return null;
 
+    }
+
+    public List<Employee> getEmployeesByFirstName(String firstName){
+        return employeeRepo.findAllByFirstName(firstName);
+    }
+
+    public List<Employee> getEmployeesByLastName(String LName){
+        return employeeRepo.getAllbyLName(LName);
     }
 
 }

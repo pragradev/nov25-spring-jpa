@@ -15,6 +15,11 @@ public class EmployeeAPI {
     @Autowired
     EmployeeService employeeService;
 
+    @PostMapping("/addAll")
+    public List<Employee> addALL(@RequestBody List<Employee> employees){
+        return employeeService.addAll(employees);
+    }
+
     @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee){
 
@@ -41,6 +46,16 @@ public class EmployeeAPI {
     @PatchMapping("/patch")
     public Employee patch(@RequestBody Employee employee){
         return employeeService.patchEmployee(employee);
+    }
+
+    @GetMapping("/fName")
+    public List<Employee> getAllbyfName(@RequestParam String fName){
+        return employeeService.getEmployeesByFirstName(fName);
+    }
+
+    @GetMapping("/lName")
+    public List<Employee> getAllbylName(@RequestParam String lName){
+        return employeeService.getEmployeesByLastName(lName);
     }
 
 }
