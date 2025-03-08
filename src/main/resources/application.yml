@@ -3,7 +3,7 @@ spring:
     name: nov-spring-jpa
 
   datasource:
-    url: jdbc:h2:mem:appDb
+    url: jdbc:h2:./appDb
     username: sa
     password:
   h2:
@@ -12,7 +12,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     show-sql: true
 server:
   port: 8081
