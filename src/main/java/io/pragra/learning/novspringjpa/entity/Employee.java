@@ -1,11 +1,10 @@
 package io.pragra.learning.novspringjpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -15,6 +14,26 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String emailId;
+    @OneToOne
+    private Address address;
+    @OneToMany
+    private List<BankDetail> bankDetails;
+
+    public List<BankDetail> getBankDetails() {
+        return bankDetails;
+    }
+
+    public void setBankDetails(List<BankDetail> bankDetails) {
+        this.bankDetails = bankDetails;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     @Override
     public String toString() {
@@ -23,6 +42,8 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", emailId='" + emailId + '\'' +
+                ", address=" + address +
+                ", bankDetails=" + bankDetails +
                 '}';
     }
 

@@ -1,6 +1,9 @@
 package io.pragra.learning.novspringjpa.service;
 
+import io.pragra.learning.novspringjpa.entity.BankDetail;
 import io.pragra.learning.novspringjpa.entity.Employee;
+import io.pragra.learning.novspringjpa.repo.AddressRepo;
+import io.pragra.learning.novspringjpa.repo.BankDetailRepo;
 import io.pragra.learning.novspringjpa.repo.EmployeeRepo;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +18,20 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     EmployeeRepo employeeRepo;
+    @Autowired
+    AddressRepo addressRepo;
+    @Autowired
+    BankDetailRepo bankDetailRepo;
 
     public List<Employee> addAll(List<Employee> employees){
         return employeeRepo.saveAll(employees);
     }
     public Employee addEmployee(Employee employee){
+        System.out.println(employee.getAddress());
+        // save transient instance
+        addressRepo.save(employee.getAddress());
+        bankDetailRepo.saveAll(employee.getBankDetails());
+        System.out.println(employee.getAddress());
         return employeeRepo.save(employee);
     }
     public Optional<Employee> getById(Integer id){
