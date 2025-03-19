@@ -14,10 +14,12 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String emailId;
-    @OneToOne
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
-    @OneToMany
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<BankDetail> bankDetails;
+
+    // R(FetchType) C U D (Cascade)
 
     public List<BankDetail> getBankDetails() {
         return bankDetails;

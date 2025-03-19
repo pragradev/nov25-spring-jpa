@@ -28,7 +28,16 @@ public class EmployeeAPI {
 
     @GetMapping("/byId")
     public Optional<Employee> getEmployeeById(@RequestParam Integer id){
-        return employeeService.getById(id);
+        Optional<Employee> tempEmp = employeeService.getById(id);
+        System.out.println("sadsdfd");
+        System.out.println("sadsdfd");
+        System.out.println("sadsdfd");
+        return tempEmp;
+    }
+
+    @GetMapping("/nameById")
+    public String getEmployeeFirstNameById(@RequestParam Integer id){
+        return employeeService.getById(id).get().getFirstName();
     }
 
     @GetMapping("/all")

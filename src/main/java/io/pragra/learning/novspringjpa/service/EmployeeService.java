@@ -27,11 +27,6 @@ public class EmployeeService {
         return employeeRepo.saveAll(employees);
     }
     public Employee addEmployee(Employee employee){
-        System.out.println(employee.getAddress());
-        // save transient instance
-        addressRepo.save(employee.getAddress());
-        bankDetailRepo.saveAll(employee.getBankDetails());
-        System.out.println(employee.getAddress());
         return employeeRepo.save(employee);
     }
     public Optional<Employee> getById(Integer id){
