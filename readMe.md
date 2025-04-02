@@ -33,3 +33,27 @@ course-Student table:
 11,     543
 15,     543
 20,     543
+
+sevlets
+
+
+Consuming APIs:
+REST : Rest clients: HTTP clients
+
+REST Template (Depricated)
+
+
+Web Client (Recommanded)
+Feign CLient (Netflix)
+
+ResponseEntity, testing
+
+
+
+
+
+
+
+
+
+
