@@ -2,14 +2,19 @@ package io.pragra.learning.novspringjpa.api;
 
 import io.pragra.learning.novspringjpa.dto.ResponseDTO;
 import io.pragra.learning.novspringjpa.entity.Employee;
+import io.pragra.learning.novspringjpa.exceptions.BaseExcetion;
 import io.pragra.learning.novspringjpa.repo.EmployeeRepo;
 import io.pragra.learning.novspringjpa.service.EmployeeService;
 import io.pragra.learning.novspringjpa.util.AppConstants;
 import io.pragra.learning.novspringjpa.util.SchemaConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +22,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employee")
+@Slf4j
 public class EmployeeAPI {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeAPI.class);
     public static final Map<String, String> statusCodeDescMapping = new HashMap<>();
     @Autowired
     EmployeeService employeeService;
@@ -29,8 +37,8 @@ public class EmployeeAPI {
 
     @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee){
-
-        return employeeService.addEmployee(employee);
+        Employee employee1 = employeeService.addEmployee(employee);
+        return employee1;
     }
 
     @GetMapping("/byId")
@@ -40,10 +48,8 @@ public class EmployeeAPI {
         // validate Input
         if(!validateId(id)){
             // return error woth proper details
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .statusCode("1112")
-                    .statusDesc("id is not valid")
-                    .build();
+            ResponseDTO responseDTO = new ResponseDTO(null,"1112","id is not valid");
+
             ResponseEntity<ResponseDTO> responseEntity = ResponseEntity
                     .ok()
                     .header("asdsa","asdsfdfsdf")
@@ -61,11 +67,12 @@ public class EmployeeAPI {
             System.out.println("sadsdfd");
             // DDD(1014) App AccountAccessId :-|> (process payment and gives object back)
 
-        } catch (Exception ex){
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .statusCode(ex.getMessage().substring(0,4)) //"1111bjhhcsf sd  ff  f f   v"
-                    .statusDesc(ex.getMessage().substring(4))
-                    .build();
+        } catch (BaseExcetion ex){
+            ResponseDTO responseDTO = new ResponseDTO(
+                    null,
+                    ex.getMessage().substring(0,4),
+                    ex.getMessage().substring(4));
+
             ResponseEntity<ResponseDTO> responseEntity = ResponseEntity
                     .ok()
                     .header("asdsa","asdsfdfsdf")
@@ -75,10 +82,14 @@ public class EmployeeAPI {
 
         if (tempEmp.isPresent()){
             Employee employee = tempEmp.get();
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .data(employee)
-                    .statusCode("SS0")
-                    .build();
+            ResponseDTO responseDTO = new ResponseDTO(
+                    employee,
+                    "SS0",
+                    null);
+//            ResponseDTO responseDTO = ResponseDTO.builder()
+//                    .data(employee)
+//                    .statusCode("SS0")
+//                    .build();
             ResponseEntity<ResponseDTO> responseEntity = ResponseEntity
                     .ok()
                     .header(SchemaConstants.HTTP_HEADER_ASDFFG,"asdsfdfsdf")
@@ -86,10 +97,10 @@ public class EmployeeAPI {
 
             return responseEntity;
         } else {
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .statusCode(AppConstants.SUCCESS_RESPONSE)
-                    .statusDesc("Employee not available for that id")
-                    .build();
+            ResponseDTO responseDTO = new ResponseDTO(
+                    null,
+                    AppConstants.SUCCESS_RESPONSE,
+                    "Employee not available for that id");
             ResponseEntity<ResponseDTO> responseEntity = ResponseEntity
                     .ok()
                     .header("asdsa","asdsfdfsdf")
@@ -110,6 +121,7 @@ public class EmployeeAPI {
     @GetMapping("/nameById")
     public String getEmployeeFirstNameById(@RequestParam Integer id){
         return employeeService.getById(id).get().getFirstName();
+        //sdfsdfgdfvncdsjcn
     }
 
     @GetMapping("/all")
@@ -137,6 +149,21 @@ public class EmployeeAPI {
     @GetMapping("/lName")
     public List<Employee> getAllbylName(@RequestParam String lName){
         return employeeService.getEmployeesByLastName(lName);
+    }
+
+    // Exception Handling Class level
+    @ExceptionHandler
+    public ResponseEntity<ResponseDTO> exceptionHandler(Exception ex){
+        // logger.error(dadsjncsdjchbnsjxsnckjndcds)
+        ResponseDTO responseDTO = new ResponseDTO(
+                null,
+                AppConstants.EMPLOYEE_CONTROLLER_FAILED,
+                AppConstants.EMPLOYEE_CONTROLLER_FAILED_DESC+ " " + ex.getMessage());
+        ResponseEntity<ResponseDTO> responseEntity = ResponseEntity
+                .ok()
+                .header("asdsa","asdsfdfsdf")
+                .body(responseDTO);
+        return responseEntity;
     }
 
 }

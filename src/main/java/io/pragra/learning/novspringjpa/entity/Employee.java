@@ -16,7 +16,7 @@ public class Employee {
     private String emailId;
     @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
-    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BankDetail> bankDetails;
 
     // R(FetchType) C U D (Cascade)

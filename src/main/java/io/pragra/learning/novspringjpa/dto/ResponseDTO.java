@@ -1,10 +1,16 @@
 package io.pragra.learning.novspringjpa.dto;
 
-import lombok.Builder;
+
 
 import java.util.Objects;
-@Builder
+
 public class ResponseDTO {
+    public ResponseDTO(Object data, String statusCode, String statusDesc) {
+        this.data = data;
+        this.statusCode = statusCode;
+        this.statusDesc = statusDesc;
+    }
+
     private Object data;
     private String statusCode;
     private String statusDesc;
